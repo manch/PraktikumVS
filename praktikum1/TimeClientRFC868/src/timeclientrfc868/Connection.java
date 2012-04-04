@@ -18,24 +18,26 @@ import java.net.SocketException;
  */
 public class Connection {
 
-  InetSocketAddress server;//, client;
-  DatagramSocket clientSocket;// ,serverSocket;
+  InetSocketAddress server, client;
+  DatagramSocket clientSocket, serverSocket;
   byte[] data = new byte[4];
   DatagramPacket packet = new DatagramPacket(data, data.length);
   int dgramLength;
-
-  /*public UdpConnection(int serverPort) // Konstruktor ServerSocket
+  
+  //Wird vom server verwendet
+  public Connection(int serverPort) // Konstruktor ServerSocket
     throws SocketException, IOException {
     serverSocket = new DatagramSocket(serverPort); // immer localhost
-  }*/
+  }
 
   public Connection(InetSocketAddress server) // Konstruktor ClientSocket
     throws SocketException, IOException {
     clientSocket = new DatagramSocket(); // localhost, Port beliebig
     this.server = server;                // Adresse Serversocket
   }
-
-  /*public byte[] receiveRequest() throws IOException {
+  
+  //wird vom server verwendet
+  public byte[] receiveRequest() throws IOException {
     packet.setData(data);                // Empfangspuffer rücksetzen
     serverSocket.receive(packet);        // Warten auf Request
     client = new InetSocketAddress(packet.getAddress(), packet.getPort());
@@ -44,12 +46,12 @@ public class Connection {
     System.arraycopy(packet.getData(), 0, result, 0, dgramLength);
     return result;
   }
-
+  //wird vom server verwendet
   public void sendResponse(byte[] message) throws IOException {
     packet.setSocketAddress(client);     // An Client adressieren
     packet.setData(message, 0, message.length);  // In Datagramm packen
     serverSocket.send(packet);
-  }*/
+  }
 
   public void sendRequest(byte[] message) throws SocketException, IOException {
     packet.setSocketAddress(server);     // An Server adressieren
